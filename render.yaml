@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: eu-sou-ninja-system
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT main:app
+    plan: free
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
+    disk:
+      name: eu-sou-ninja-disk
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
+
+databases:
+  - name: eu-sou-ninja-db
+    databaseName: eu_sou_ninja
+    user: eu_sou_ninja_user
+    plan: free
